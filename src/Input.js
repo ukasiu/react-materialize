@@ -48,7 +48,7 @@ class Input extends React.Component {
   }
 
   render() {
-    let { defaultValue, placeholder, id, type, label, children, validate, onChange, ...props} = this.props;
+    let { defaultValue, placeholder, id, type, label, children, validate, onChange, error, ...props} = this.props;
     let classes = {
       col: true,
       'input-field': type !== 'checkbox' && type !== 'radio'
@@ -64,6 +64,9 @@ class Input extends React.Component {
     let inputClasses = {
       validate
     };
+    if(error) {
+      inputClasses['invalid'] = true
+    }
     let C, inputType;
     switch (type) {
       case 'textarea':
@@ -82,7 +85,7 @@ class Input extends React.Component {
       active: this.state.value || this.isSelect()
     };
 
-    let htmlLabel = label ? <label className={cx(labelClasses)} htmlFor={id}>{label}</label> : null;
+    let htmlLabel = label ? <label className={cx(labelClasses)} htmlFor={id} data-error={error}>{label}</label> : null;
 
     if (this.isSelect()) {
       let options = placeholder && !defaultValue ? [<option disabled key={idgen()}>{placeholder}</option>] : [];
